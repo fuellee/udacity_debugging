@@ -10,14 +10,22 @@ def segment_html(html):
             if c == '<':
                 if seg != "":
                     result.append(seg)
-                seg = "<"
+
+                    # print "#|1|#",seg
+
+                seg = ""
                 tag = True
             else:
                 seg += c
         if not quote and tag:
-            assert seg[0]==('<')
+
+            # print "#|3|#",seg
+
             if c == '>':
                 result.append(seg+'>')
+
+                # print "#|2|#",seg+'>'
+
                 seg = ""
                 tag = False
             elif c=='"' or c=="'":
@@ -25,6 +33,7 @@ def segment_html(html):
                 quote = True
             else:
                 seg += c
+                assert seg[0]==('<')
         if quote and tag:
             assert seg[0]==('<')
             if c=='"' or c=="'":
@@ -35,7 +44,7 @@ def segment_html(html):
 
     return result
 
-input = '<vbox><listbox rows="2"><listitem label="listitem"/><listitem><html:input type="checkbox" style="margin:0px;"/></listitem></listbox></vbox>'
+input = '<vbox><listbox rows="2">aaaaaa<listitem label="listitem"/><listitem><html:input type="checkbox" style="margin:0px;"/></listitem></listbox></vbox>'
 print "____________input_____________"
 print input
 print "______________________________"
