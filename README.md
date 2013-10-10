@@ -33,3 +33,9 @@ stop and save the current state (frame.f_locals) to a global var('the_state') if
 `4_change_the_state.py`
 stop and change the current state (frame.f_locals) according to a global var('the_diff') if some condition is satistied
 Changing `frame.f_locals` is some kind of tricky, use `update`.
+
+`4_make_it_work` : **find the cause chain automatically** 
+* need a **pass case** and a **fail case**.
+* use `get_state` to get their state in given line/iteration. compute the `diff`::`[(varName,fail_val)]`. failure cause must be a subset of diff.
+* use `ddmin`(delta debug minimize) to find the minimum set of vars,vals pair make the test fail, for each given line/iteration.
+* print the `var,fail_val` pairs in order of line/iteration. that is the cause chain
