@@ -106,11 +106,11 @@ def traceit(frame, event, trace_arg):
                 command = input_command()
                 resume = debug(command, frame.f_locals)
 
-                # watchpoints
-                for varName,varValue in watchpoints.iteritems():
-                    if (varName in frame.f_locals) and (frame.f_locals[varName] != varValue):
-                        print varName,':',repr(varValue),'=>',repr(frame.f_locals[varName])
-                        watchpoints[varName] = frame.f_locals[varName]
+        # watchpoints
+        for varName,varValue in watchpoints.iteritems():
+            if (varName in frame.f_locals) and (frame.f_locals[varName] != varValue):
+                print varName,':',repr(varValue),'=>',repr(frame.f_locals[varName])
+                watchpoints[varName] = frame.f_locals[varName]
     return traceit
 
 # Using the tracer
@@ -119,8 +119,8 @@ main()
 sys.settrace(None)
 
 #Simple test
-# print watchpoints
-# debug("w s", {'s': 'xyz', 'tag': False})
-# print watchpoints
+print watchpoints
+debug("w s", {'s': 'xyz', 'tag': False})
+print watchpoints
 #>>> {'c': True}
 #>>> {'c': True, 's': True}

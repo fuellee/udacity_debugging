@@ -26,3 +26,10 @@ Unit 4
 * the solution provide by the udacity course, hmm, tricky
 * assert(quote in ["'",'"',False])
 * ' and " implicitly means true, thus the quote(" or ') sign can be stored in varable `quote`
+
+`4_save_the_state.py`
+stop and save the current state (frame.f_locals) to a global var('the_state') if some condition is satistied
+
+`4_change_the_state.py`
+stop and change the current state (frame.f_locals) according to a global var('the_diff') if some condition is satistied
+Changing `frame.f_locals` is some kind of tricky, use `update`.
