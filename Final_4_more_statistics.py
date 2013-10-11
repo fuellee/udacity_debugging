@@ -5,8 +5,8 @@ import math
 # The provided code calculates phi coefficients for each code line.
 # Make sure that you understand how this works, then modify the provided code
 # to work also on function calls (you can use your code from problem set 5 here)
-# Use the mystery function that can be found at line 170 and the
-# test cases at line 165 for this exercise.
+# Use the mystery function that can be found at line TODO 170 and the
+# test cases at line TODO 165 for this exercise.
 # Remember that for functions the phi values have to be calculated as
 # described in the problem set 5 video -
 # you should get 3 phi values for each function - one for positive values (1),
