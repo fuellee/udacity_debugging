@@ -36,7 +36,7 @@ def remove_html_markup(s):
 def ddmin(s):
     # you may need to use this to test if the values you pass actually make
     # test fail.
-    assert test(s) == "FAIL"
+    # assert test(s) == "FAIL"
 
     n = 2     # Initial granularity
     while len(s) >= 2:
@@ -71,8 +71,7 @@ def traceit(frame, event, arg):
 
     # YOUR CODE HERE
     if event == "line":
-        if frame.f_lineno not in coverage:
-            coverage.append(frame.f_lineno)
+        coverage.append(frame.f_lineno)
 
     return traceit
 
@@ -82,6 +81,7 @@ the_iteration = None
 the_state     = None
 the_diff      = None
 the_input     = None
+pre_state     = {}
 
 # Stop at THE_LINE/THE_ITERATION and store the state in THE_STATE
 def trace_fetch_state(frame, event, arg):
@@ -158,10 +158,20 @@ def make_locations(coverage):
     # This function should return a list of tuples in the format
     # [(line, iteration), (line, iteration) ...], as auto_cause_chain
     # expects.
+    locations = []
+    line_iter_dict = {}  # e.g: {19:4, ...} line 19,current iteration is 4, so next iter is 5
+    for line in coverage:
+        if line not in line_iter_dict:
+            line_iter_dict[line] = 1
+            locations.append((line,1))
+        else:
+            next_iter = line_iter_dict[line] + 1
+            line_iter_dict[line] = next_iter
+            locations.append((line,next_iter))
     return locations
 
 def auto_cause_chain(locations):
-    global html_fail, html_pass, the_input, the_line, the_iteration, the_diff
+    global html_fail, html_pass, the_input, the_line, the_iteration, pre_state
     print "The program was started with", repr(html_fail)
 
     # Test over multiple locations
@@ -173,7 +183,7 @@ def auto_cause_chain(locations):
 
         # Compute the differences
         diffs = []
-        for var in state_fail.keys():
+        for var in state_fail:
             if var not in state_pass or state_pass[var] != state_fail[var]:
                 diffs.append((var, state_fail[var]))
 
@@ -187,8 +197,15 @@ def auto_cause_chain(locations):
         the_iteration  = iteration
         # You will have to use the following functions and output formatting:
         #    cause = ddmin(diffs)
-        #    # Pretty output
-        #    print "Then", var, "became", repr(value)
+        cause = ddmin(diffs)
+       # Pretty output
+        # print "Then", var, "became", repr(value)
+        # print "Then, in Line " + repr(line) + " (iteration " + repr(iteration) + "),",
+        for (var, value) in cause:
+            # print var, 'became', repr(value)
+            if var not in pre_state or value != pre_state[var]:
+                print "Then", var, "became", repr(value)
+        pre_state = state_fail
 
     print "Then the program failed."
 
