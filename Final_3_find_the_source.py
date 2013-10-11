@@ -174,6 +174,7 @@ def auto_cause_chain(locations):
     global html_fail, html_pass, the_input, the_line, the_iteration, pre_state
     print "The program was started with", repr(html_fail)
 
+    break_flag = False
     # Test over multiple locations
     for (line, iteration) in locations:
 
@@ -199,12 +200,15 @@ def auto_cause_chain(locations):
         #    cause = ddmin(diffs)
         cause = ddmin(diffs)
        # Pretty output
-        # print "Then", var, "became", repr(value)
-        # print "Then, in Line " + repr(line) + " (iteration " + repr(iteration) + "),",
         for (var, value) in cause:
-            # print var, 'became', repr(value)
             if var not in pre_state or value != pre_state[var]:
                 print "Then", var, "became", repr(value)
+
+            if var == "out" and value.find("<")!= -1:  # is there better solution?
+                break_flag = True
+
+        if break_flag: break
+
         pre_state = state_fail
 
     print "Then the program failed."
