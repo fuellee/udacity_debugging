@@ -36,7 +36,10 @@ def remove_html_markup(s):
 def ddmin(s):
     # you may need to use this to test if the values you pass actually make
     # test fail.
-    # assert test(s) == "FAIL"
+    try:
+        assert test(s) == "FAIL"
+    except:
+        return []
 
     n = 2     # Initial granularity
     while len(s) >= 2:
